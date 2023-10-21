@@ -34,9 +34,9 @@ class GushiwenSpider(scrapy.Spider):
     def parse_article(self, response, group_name):
         content = response.css('div.main3 .left div#sonsyuanwen.sons div.cont')
         title = content.css('h1::text').get().strip()
-        author = content.css('div p.source')
-        author = strip_text( author.css('a:nth-child(1)::text').getall() )
-        dynasty = re.sub(r'〔|〕', '', strip_text( content.css('a:nth-child(2)::text').getall()))
+        author_source = content.css('div p.source')
+        author = strip_text( author_source.css('a:nth-child(1)::text').getall() )
+        dynasty = re.sub(r'〔|〕', '', strip_text( author_source.css('a:nth-child(2)::text').getall()))
         text = strip_text( content.css('div.contson::text').getall() + content.css('div.contson p::text').getall() )
 
         self.log(f'Writing org file of {title}')
