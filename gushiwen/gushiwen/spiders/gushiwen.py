@@ -27,7 +27,6 @@ class GushiwenSpider(scrapy.Spider):
     def parse(self, response):
         groups = response.css('div.main3 div.left div.sons div.typecont')
         for group in groups:
-            # group = response.css('div.main3 div.left div.sons div.typecont')[0]
             group_name = group.css('div.bookMl strong::text').get()
             yield from response.follow_all(group.css('span a'), callback=self.parse_article, cb_kwargs={'group_name':group_name})
 
